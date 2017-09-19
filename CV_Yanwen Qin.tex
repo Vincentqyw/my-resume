@@ -1,0 +1,467 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% Simple LaTeX CV Template %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NOTE: If you find that it says                                     %%
+%%                                                                    %%
+%%                           1 of ??                                  %%
+%%                                                                    %%
+%% at the bottom of your first page, this means that the AUX file     %%
+%% was not available when you ran LaTeX on this source. Simply RERUN  %%
+%% LaTeX to get the ``??'' replaced with the number of the last page  %%
+%% of the document. The AUX file will be generated on the first run   %%
+%% of LaTeX and used on the second run to fill in all of the          %%
+%% references.                                                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't like 10pt? Try 11pt or 12pt
+\documentclass[line,sans,11pt]{article}
+
+% The automated optical recognition software used to digitize resume
+% information works best with fonts that do not have serifs. This
+% command uses a sans serif font throughout. Uncomment both lines (or at
+% least the second) to restore a Roman font (i.e., a font with serifs).
+%\usepackage{times}
+%\renewcommand{\familydefault}{\sfdefault}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+\usepackage{comment}
+
+% Simpler bibsection for CV sections
+% (thanks to natbib for inspiration)
+\makeatletter
+\newlength{\bibhang}
+\setlength{\bibhang}{1em} %1em}
+\newlength{\bibsep}
+ {\@listi \global\bibsep\itemsep \global\advance\bibsep by\parsep}
+\newenvironment{bibsection}%
+        {\begin{enumerate}{}{%
+%        {\begin{list}{}{%
+       \setlength{\leftmargin}{\bibhang}%
+       \setlength{\itemindent}{-\leftmargin}%
+       \setlength{\itemsep}{\bibsep}%
+       \setlength{\parsep}{\z@}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{enumerate} \vspace{-.6\baselineskip}}
+%        {\end{list}\vspace{-.6\baselineskip}}
+\makeatother
+
+% Layout: Puts the section titles on left side of page
+\reversemarginpar
+
+%
+%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+%
+% The next \usepackage line changes the layout for CV style section
+% headings as marginal notes. It also sets up the paper size as either
+% letter or A4. By default, letter was used. If A4 paper is desired,
+% comment out the letterpaper lines and uncomment the a4paper lines.
+%
+% As you can see, the margin widths and section title widths can be
+% easily adjusted.
+%
+% ALSO: Notice that the includefoot option can be commented OUT in order
+% to put the PAGE NUMBER *IN* the bottom margin. This will make the
+% effective text area larger.
+%
+% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
+% see the note about the +LP and -LP lines below. Comment out the +LP
+% and uncomment the -LP.
+%
+% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
+% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
+% below.
+%
+
+%% Use these lines for letter-sized paper
+%\usepackage[paper=letterpaper,
+%            %includefoot, % Uncomment to put page number above margin
+%           marginparwidth=1.2in,     % Length of section titles
+%            marginparsep=.05in,       % Space between titles and text
+%            margin=1in,               % 1 inch margins
+%            includemp]{geometry}
+
+%% Use these lines for A4-sized paper
+\usepackage[paper=a4paper,
+            %includefoot, % Uncomment to put page number above margin
+            marginparwidth=30.0mm,    % Length of section titles
+            marginparsep=0.0mm,       % Space between titles and text
+            margin=10mm,              % 25mm margins
+            includemp]{geometry}
+
+% % yanwen's code begin
+\hyphenpenalty=5
+\tolerance=300
+\oddsidemargin 15mm
+\textwidth=155mm
+\textheight 264mm
+% % yanwen's code end
+
+%% More layout: Get rid of indenting throughout entire document
+\setlength{\parindent}{0in}
+
+\usepackage[shortlabels]{enumitem}
+
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+%\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+          {0.5\textwidth+0.5\marginparsep+0.5\marginparwidth-2in}
+\lfoot{\hspace{\footpageshift}%
+       \parbox{4in}{\, \hfill %
+                    \arabic{page} of \protect\pageref*{LastPage} % +LP 脚注1/2
+%                    \arabic{page}                               % -LP  脚注1
+                    \hfill \,}}
+
+% Finally, give us PDF bookmarks
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The title (name) with a horizontal rule under it
+% (optional argument typesets an object right-justified across from name
+%  as well)
+%
+% Usage: \makeheading{name}
+%        OR
+%        \makeheading[right_object]{name}
+%
+% Place at top of document. It should be the first thing.
+% If ``right_object'' is provided in the square-braced optional
+% argument, it will be right justified on the same line as ``name'' at
+% the top of the CV. For example:
+%
+%       \makeheading[\emph{Curriculum vitae}]{Your Name}
+%
+% will put an emphasized ``Curriculum vitae'' at the top of the document
+% as a title. Likewise, a picture could be included:
+%
+%   \makeheading[\includegraphics[height=1.5in]{my_picutre}]{Your Name}
+%
+% the picture will be flush right across from the name.
+\newcommand{\makeheading}[2][]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+             {\large \bfseries #2 \hfill #1}\\[-0.15\baselineskip]%
+                 \rule{\columnwidth}{1pt}%
+         \end{minipage}}
+
+% The section headings
+%
+% Usage: \section{section name}
+\renewcommand{\section}[1]{\pagebreak[3]%
+    \hyphenpenalty=10000%
+    \vspace{1.3\baselineskip}%
+    \phantomsection\addcontentsline{toc}{section}{#1}%
+    \noindent\llap{\scshape\smash{\parbox[t]{\marginparwidth}{\raggedright #1}}}%
+    \vspace{-\baselineskip}\par}
+
+% An itemize-style list with lots of space between items
+\newenvironment{outerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*]}{\end{itemize}%
+         \vspace{-.6\baselineskip}}
+
+% An environment IDENTICAL to outerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{lonelist}[1][\enskip\textbullet]%
+        {\begin{list}{#1}{%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{list}\vspace{-.6\baselineskip}}
+
+% An itemize-style list with little space between items
+\newenvironment{innerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{itemize}}
+
+% An environment IDENTICAL to innerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{loneinnerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{itemize}\vspace{-.6\baselineskip}}
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+\newcommand{\blankline}{\quad\pagebreak[3]}
+\newcommand{\halfblankline}{\quad\vspace{-0.5\baselineskip}\pagebreak[3]}
+
+% Uses hyperref to link DOI
+\newcommand\doilink[1]{\href{http://dx.doi.org/#1}{#1}}
+\newcommand\doi[1]{doi:\doilink{#1}}
+
+% For \url{SOME_URL}, links SOME_URL to the url SOME_URL
+\providecommand*\url[1]{\href{#1}{#1}}
+% Same as above, but pretty-prints SOME_URL in teletype fixed-width font
+\renewcommand*\url[1]{\href{#1}{\texttt{#1}}}
+
+% For \email{ADDRESS}, links ADDRESS to the url mailto:ADDRESS
+\providecommand*\email[1]{\href{mailto:#1}{#1}}
+% Same as above, but pretty-prints ADDRESS in teletype fixed-width font
+%\renewcommand*\email[1]{\href{mailto:#1}{\texttt{#1}}}
+
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    \TeX}}
+\providecommand\BibTeX{{B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    \TeX}}
+\providecommand\Matlab{\textsc{Matlab}}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+	
+\makeheading{{ Yanwen QIN}\hfill \small{Sep 19, 2017}} %日期！
+
+
+%%%%%%%%%%%%%%%%%%%%%%联系方式%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\vspace{4mm}
+
+\section{Contact Information}
+
+% NOTE: Mind where the & separators and \\ breaks are in the following
+%       table.
+%
+% ALSO: \rcollength is the width of the right column of the table
+%       (adjust it to your liking; default is 1.85in).
+\newlength{\rcollength}\setlength{\rcollength}{39mm}%
+%
+\begin{tabular}[t]{@{}p{\textwidth-\rcollength}p{\rcollength}}
+
+Department of Automation, Tsinghua University, China  & \email{ qin123@163.com}\\
+    {Homepage: \url{https://www.vincentqin.tech/about}}& Tel: 86-17520453232\\
+    {GitHub: \url{https://github.com/vincentqyw}}
+\end{tabular}
+
+%\vspace{-1mm}
+
+%%%%%%%%%%%%%%%%%%%%%%研究兴趣%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Research Interests}
+{\bf Computer Vision:} image processing (depth estimation from light field) and pattern recognition (license plate recognition).\\
+{\bf GPU Acceleration:} code optimization,thread scheduling, memory management.
+
+
+%%%%%%%%%%%%%%%%%%%%%%教育经历%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Education}
+
+\href{http://www.tsinghua.edu.cn/publish/newthuen/}{{\bf Tsinghua University(THU)}},
+Beijing, China
+\begin{outerlist}
+
+\item[] M.E.,
+        %\href{http://www.sph.umn.edu/biostatistics/}
+         {Department of Automation} \hfill
+         Sep 2015 -- Jul 2018
+        \begin{innerlist}
+        \item Major in Control Engineering
+        \item Advisor: \textit{Prof.}
+              \href{http://www.sz.tsinghua.edu.cn/publish/sz/139/2012/20121022091023919775632/20121022091023919775632_.html}
+              {Xin Jin}
+        \item GPA: 3.5/4.0
+        \end{innerlist}
+\end{outerlist}
+\vspace{.1in}
+\href{http://www.cqupt.edu.cn/cqupt/index.shtml}{{\bf Chongqing University of Posts and Telecommunications(CQUPT)}},Chongqing, China 
+\begin{outerlist}
+\item[] B.S.,
+             {Department of Automation} \hfill
+             Sep 2011 -- Jul 2015
+        \begin{innerlist}
+        \item Major in Automation
+        \item GPA: 3.8/4.0
+        \end{innerlist}
+\end{outerlist}
+
+\vspace{-1.5mm}
+%%%%%%%%%%%%%%%%%%%%%%主修课程%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Major Curriculum}
+{\bf Postgraduate Courses:} Machine Learning, Digital Image Processing, Convex Optimization, Next Generation Video Coding and Low Power Design, Stochastic Processes, Modern Signal Processing, Data Mining, Pattern Recognition, Advanced Computing.\\
+{\bf Undergraduate Courses:} Automatic Control Principles, Signals and Systems, Circuit Theory, Power Electronics Technology.
+%\vspace{2.5mm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%研究经历%%%%%%%%%%%%%%%%%%%%%%%%%%%%% social practice
+%\section{Research Experience}
+%\textbf{Visiting Student} \hfill {Jan 2016 -- Jul 2016}
+%\begin{innerlist}
+%\item[] School of Electrical and Information Engineering,\href{http://sydney.edu.au/}{The University of Sydney}, Australia\\
+%        Supervisor: Dr. \href{https://sites.google.com/site/xyzliwen/}{Wen Li} and \textit{Prof.} \href{http://sydney.edu.au/engineering/electrical/people/dong.xu/index.html}{Dong Xu}\\
+         %\textit{Prof.} \href{https://rafael-calvo.com/}{Rafael A. Calvo}\\
+%        Projects: Metric learning with privileged information for visual recognition.
+%\end{innerlist}
+\vspace{-0.5mm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%发表的论文%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conference Publications}
+\vspace{-.125in}
+\begin{bibsection}
+    \item \underline{\bf Yanwen Qin}, Xin Jin,  Yanqin Chen, and Qionghai Dai, ``Enhanced Depth Estimation for Hand-Held Light Field Cameras," {\em International Conference on Acoustics, Speech and Signal Processing} ({\bf ICASSP}), 2017. ({{\bf Poster}})
+    
+    \item \underline{\bf Yanwen Qin}, Xin Jin,  and Qionghai Dai, ``Gpu-Based Depth Estimation for Light Field Images," {\em Pacific-Rim conference on Multimedia} ({\bf PCM}), 2017. ({\bf Accepted})
+     
+\end{bibsection}
+
+
+%%%%%%%%%%%%%%%%%%%%%%专利%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Patents}
+\vspace{-.125in}
+\begin{bibsection}
+	
+	\item Xin Jin, \underline{\bf Yanwen Qin}, and Qionghai Dai, ``
+	A Depth Optimization Algorithm Based on Morphological Confidence Region Propagation," {\em China Patent No.201610823043.9} 
+	
+	\item Xin Jin, \underline{\bf Yanwen Qin}, and Qionghai Dai, ``
+	An Angular Patch Based Depth Estimation Method for Hand-Held Light Field Images," {\em China Patent No.2017101745053} 
+	
+\end{bibsection}
+% Add a little space to nudge next ``Conference Publications'' marginpar
+% down to make room for tall ``Submitted Journal Publications''
+% marginpar. If there are enough submitted journal publications, this
+% space will not be needed (and should be removed).
+%\vspace{-0.1in}
+\vspace{-1mm}
+
+%%%%%%%%%%%%%%%%%%%%%%专利%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Academic Activity}
+
+\begin{innerlist}
+	
+\item{Visit Japanese Universities and Exchange Research Ideas(Japan),  \hfill Jan 2017}
+\item{Student Member, IEEE}
+\end{innerlist}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%实习经历%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Internship Experience}
+
+
+\begin{innerlist}
+	
+	\item{Computer Vision Algorithm Intern   \hfill May 2017 -- Sep 2017 }   \\
+	\href{https://www.sensetime.com/}{SenseTime Group Limited} in ShenZhen China.
+	\hfill Supervisor: \href{http://www.linkedin.com/in/wenxiu-sun-bb6b292b?trk=pub-pbmap}{Dr. Wenxiu Sun} \\
+	Projects: Sparse Depth Map Enhancement using Multiple Filters; Coding Refactory and Compiling.etc.
+	
+	
+\end{innerlist}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%荣誉%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+\section{Honors and Awards}
+%{Graduate Honors and Awards}
+\begin{innerlist}
+	\item{Third Prize Scholarship of Tsinghua University,  \hfill 2016}
+	%\item{\href{https://drive.google.com/file/d/0B7arHHh7oU7gS0t4Zm9qVGlpa2s/view?usp=sharing}{\bf \color{red}Best Student Paper Award} at IEEE {\bf VCIP}, \hfill 2015}
+	
+	\item{Outstanding graduates in {\bf CQUPT}, \hfill 2015} %优秀毕业生
+	\item{\href{https://www.skhynix.com/cha/index.jsp}{\bf SK Hynix} Creative Talents Scholarship {\bf CQUPT}, \hfill 2014}
+	\item{Third Prize College Entrepreneurship Competition(Chongqing, China), \hfill 2014}    %创业计划大赛
+	
+	\item{First Prize Mathematical Contest in Modeling({\bf MCM})(Chongqing, China), \hfill 2013}%数模
+	\item{National Scholarship (Ministry of Education, China, Top 2\%), \hfill 2012,2013}%国奖
+	\item{Excellent Student in {\bf CQUPT} (Top 5\%), \hfill 2012,2013} %三好学生
+\end{innerlist}
+
+
+%%%%%%%%%%%%%%%%%%%%%%技能%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Skills}
+\begin{innerlist}
+	\item{Strong research sense and good at mathematics \& algorithms.}
+	\item{One-and-A-Half year English Group Meeting Experience.}
+	\item{Programming: Matlab, C/C++, CUDA, Python, Linux, OpenCV, \LaTeX, Markdown.}
+	\item{Useful tools: Visual Studio, Weka, Photoshop, Excel.}
+	
+\end{innerlist}
+%\vspace{-3mm}
+
+
+
+
+
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% End CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------%
+% The following is copyright and licensing information for
+% redistribution of this LaTeX source code; it also includes a liability
+% statement. If this source code is not being redistributed to others,
+% it may be omitted. It has no effect on the function of the above code.
+%----------------------------------------------------------------------%
+% Copyright (c) 2007, 2008, 2009, 2010, 2011 by Theodore P. Pavlic
+%
+% Unless otherwise expressly stated, this work is licensed under the
+% Creative Commons Attribution-Noncommercial 3.0 United States License. To
+% view a copy of this license, visit
+% http://creativecommons.org/licenses/by-nc/3.0/us/ or send a letter to
+% Creative Commons, 171 Second Street, Suite 300, San Francisco,
+% California, 94105, USA.
+%
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+% OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+% MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+% IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+% CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+% TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+% SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+%----------------------------------------------------------------------%
